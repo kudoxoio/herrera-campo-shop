@@ -6,6 +6,9 @@ dist/
 node_modules/
 .pnpm-store/
 
+# wrangler (Cloudflare CLI) — local dev/preview state
+.wrangler/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
