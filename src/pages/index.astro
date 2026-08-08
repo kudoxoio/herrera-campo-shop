@@ -1,0 +1,76 @@
+---
+// HERRERA & CAMPO — Temporada de Oro
+// 9-section cinematic e-commerce composition in brief order.
+
+import Layout from '~/layouts/Layout.astro';
+import Hero from '~/components/Hero.astro';
+import Marquee from '~/components/Marquee.astro';
+import ProductGrid from '~/components/ProductGrid.astro';
+import FabricMacro from '~/components/FabricMacro.astro';
+import Cuidado from '~/components/Cuidado.astro';
+import Origen from '~/components/Origen.astro';
+import EmailCapture from '~/components/EmailCapture.astro';
+import Footer from '~/components/Footer.astro';
+import CartDrawer from '~/components/islands/CartDrawer';
+import Toast from '~/components/islands/Toast';
+import LenisInit from '~/components/islands/LenisInit';
+import {
+  fabricMacroVideoUrl,
+  fabricMacroStillUrl,
+  cuidadoVideoUrl,
+  cuidadoStillUrl,
+} from '~/data/products';
+
+const marquee1Items = [
+  'Temporada de Oro',
+  'Cuero de León',
+  'Plata de Taxco',
+  'Lana de Tlaxcala',
+  'Hecho a mano',
+  'Edición Limitada',
+];
+const marquee2Items = [
+  'HERRERA & CAMPO',
+  'Herencia charra',
+  'Herencia vaquera',
+  'Desde 1923',
+  'Temporada de Oro',
+];
+
+// Wire care "Agregar +" buttons to the cart.
+---
+
+<Layout>
+  <LenisInit client:idle />
+  <Hero />
+
+  <Marquee variant="primary" items={marquee1Items} speed={50} />
+
+  <ProductGrid />
+
+  <Marquee variant="secondary" items={marquee2Items} speed={60} />
+
+  <FabricMacro videoUrl={fabricMacroVideoUrl} posterUrl={fabricMacroStillUrl} />
+
+  <Cuidado videoUrl={cuidadoVideoUrl} posterUrl={cuidadoStillUrl} />
+
+  <Origen />
+
+  <EmailCapture />
+
+  <Footer />
+
+  <CartDrawer client:load />
+  <Toast client:idle />
+
+  <script>
+    // Glue: care buttons dispatch cart:add-care events for the CartDrawer island.
+    document.querySelectorAll<HTMLButtonElement>('[data-add-care]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-add-care');
+        if (!id) return;
+        window.dispatchEvent(new CustomEvent('cart:add-care', { detail: { careId: id } }));
+      });
+    });
+  </script>
+</Layout>

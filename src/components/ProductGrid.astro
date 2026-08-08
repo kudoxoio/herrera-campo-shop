@@ -1,0 +1,28 @@
+---
+// PRODUCT GRID — 5 products. Each card has hover-spin video on the asset,
+// sold-out badge + Avisarme UI for any size that's out of stock.
+// Click opens the CartDrawer (Preact island) with size selection.
+import ProductCard from '~/components/islands/ProductCard';
+import { products } from '~/data/products';
+---
+
+<section
+  id="grid"
+  class="relative w-full bg-cream text-ink py-20 md:py-32 px-6 md:px-12"
+  aria-labelledby="grid-heading"
+>
+  <header class="max-w-6xl mx-auto mb-12 md:mb-20">
+    <p class="font-utility text-ink-secondary mb-3 md:mb-4">05 piezas · hechura a mano</p>
+    <h2 id="grid-heading" class="font-display text-ink text-5xl md:text-8xl tracking-tight leading-none">
+      La colección
+    </h2>
+  </header>
+
+  <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-16 md:gap-y-24 max-w-6xl mx-auto">
+    {products.map((product) => (
+      <li>
+        <ProductCard client:visible product={product} />
+      </li>
+    ))}
+  </ul>
+</section>

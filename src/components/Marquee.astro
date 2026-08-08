@@ -1,0 +1,35 @@
+---
+// MARQUEE — CSS-only infinite horizontal scroll. Two instances per page,
+// different speeds. Pause on hover. Respects prefers-reduced-motion via global.css.
+interface Props {
+  variant?: 'primary' | 'secondary';
+  items: string[];
+  speed?: number; // seconds for full loop
+}
+
+const { variant = 'primary', items, speed = 40 } = Astro.props;
+
+// Duplicate items 4x so the loop seam is invisible even at wide viewports.
+const track = [...items, ...items, ...items, ...items];
+
+const bgClass = variant === 'primary' ? 'bg-ink text-cream' : 'bg-cream text-ink';
+const sizeClass = variant === 'primary' ? 'py-6 md:py-8 text-3xl md:text-6xl' : 'py-4 md:py-6 text-2xl md:text-5xl';
+---
+
+<section
+  class={`marquee relative w-full overflow-hidden ${bgClass}`}
+  aria-label="Anuncio destacado"
+  data-variant={variant}
+>
+  <div
+    class="marquee-track flex whitespace-nowrap"
+    style={`animation-duration: ${speed}s;`}
+  >
+    {track.map((item, i) => (
+      <span class={`flex items-center font-display tracking-tight ${sizeClass} px-8 md:px-12 shrink-0`}>
+        <span aria-hidden={i % 2 === 0 ? 'false' : 'true'}>{item}</span>
+        <span aria-hidden="true" class="mx-6 md:mx-10 text-accent">✦</span>
+      </span>
+    ))}
+  </div>
+</section>

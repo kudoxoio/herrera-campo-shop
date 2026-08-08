@@ -1,0 +1,76 @@
+---
+// CUIDADO — care section. Background video, plus a row of 3 care products.
+import { careProducts } from '~/data/products';
+
+interface Props {
+  videoUrl?: string | null;
+  posterUrl?: string | null;
+}
+
+const { videoUrl = null, posterUrl = null } = Astro.props;
+
+const fmt = (n: number) =>
+  new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n);
+---
+
+<section
+  id="cuidado"
+  class="relative w-full bg-cream text-ink overflow-hidden"
+  aria-labelledby="cuidado-heading"
+>
+  <!-- Top: video/poster with copy -->
+  <div class="relative w-full h-[60vh] md:h-[80vh]">
+    {videoUrl ? (
+      <video
+        src={videoUrl}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        class="absolute inset-0 w-full h-full object-cover"
+        aria-hidden="true"
+        data-cuidado-video
+      />
+    ) : posterUrl ? (
+      <img src={posterUrl} alt="" class="absolute inset-0 w-full h-full object-cover" aria-hidden="true" />
+    ) : (
+      <div class="absolute inset-0 bg-ink-secondary" aria-hidden="true"></div>
+    )}
+    <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
+
+    <div class="relative z-10 h-full flex flex-col justify-center max-w-4xl mx-auto px-6 md:px-12 text-cream">
+      <p class="font-utility text-accent mb-4">El ritual del cuidado</p>
+      <h2 id="cuidado-heading" class="font-display text-cream text-5xl md:text-8xl tracking-tight leading-none mb-6">
+        Cuidar<br />es portar
+      </h2>
+      <p class="font-body text-cream/80 text-lg md:text-2xl max-w-2xl">
+        Cuero vegetable, palma tejida, plata repujada. Tres materiales que viven contigo — y que merecen tu mano.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom: care products row -->
+  <div class="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-24">
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      {careProducts.map((p) => (
+        <li class="border-thin p-6 md:p-8">
+          <h3 class="font-display text-2xl md:text-3xl mb-3 leading-tight">{p.name}</h3>
+          <p class="font-body text-ink-secondary text-base md:text-lg mb-6 leading-relaxed">
+            {p.description}
+          </p>
+          <div class="flex items-center justify-between">
+            <span class="font-display text-xl md:text-2xl">{fmt(p.price)}</span>
+            <button
+              type="button"
+              class="font-utility text-ink hover:text-accent transition-colors"
+              data-add-care={p.id}
+            >
+              Agregar +
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

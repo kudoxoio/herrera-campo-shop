@@ -1,0 +1,84 @@
+---
+// EMAIL CAPTURE — pre-launch list. Saves email to localStorage,
+// shows a confirmation message in place of the form on success.
+---
+
+<section
+  id="email"
+  class="bg-ink text-cream py-24 md:py-40 px-6 md:px-12"
+  aria-labelledby="email-heading"
+>
+  <div class="max-w-3xl mx-auto text-center">
+    <p class="font-utility text-accent mb-4">Acceso anticipado</p>
+    <h2 id="email-heading" class="font-display text-cream text-4xl md:text-7xl tracking-tight leading-tight mb-6 md:mb-8">
+      Te avisamos antes que a nadie.
+    </h2>
+    <p class="font-body text-cream/70 text-lg md:text-xl mb-10 md:mb-14 max-w-2xl mx-auto leading-relaxed">
+      48 horas antes del lanzamiento, recibirás un correo con tu liga privada y un código de 10% sobre la primera pieza.
+    </p>
+
+    <form
+      id="email-capture-form"
+      class="flex flex-col md:flex-row items-stretch gap-3 md:gap-4 max-w-xl mx-auto"
+      novalidate
+    >
+      <label class="sr-only" for="email-input">Tu correo electrónico</label>
+      <input
+        id="email-input"
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="tu@correo.com"
+        class="flex-1 bg-transparent border border-cream/40 px-5 py-4 md:py-5 font-body text-cream placeholder:text-cream/40 focus:border-accent focus:outline-none transition-colors"
+      />
+      <button
+        type="submit"
+        class="border border-cream px-8 py-4 md:py-5 font-utility text-cream hover:bg-accent hover:border-accent transition-colors"
+      >
+        Apuntarme
+      </button>
+    </form>
+
+    <p
+      id="email-success"
+      class="hidden mt-8 font-utility text-accent text-sm md:text-base"
+      role="status"
+      aria-live="polite"
+    >
+      Listo. Te escribimos el jueves a las 20:00 hrs.
+    </p>
+
+    <p class="font-utility text-cream/40 text-[0.65rem] mt-6">
+      Sin spam. Sin venta de datos. Sólo un correo, una vez.
+    </p>
+  </div>
+</section>
+
+<script>
+  // Light client-side glue. EmailCapture stores email in localStorage.
+  const form = document.getElementById('email-capture-form') as HTMLFormElement | null;
+  const input = document.getElementById('email-input') as HTMLInputElement | null;
+  const success = document.getElementById('email-success');
+  if (form && input && success) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      // Simple email shape check.
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!ok) {
+        input.setAttribute('aria-invalid', 'true');
+        input.focus();
+        return;
+      }
+      input.removeAttribute('aria-invalid');
+      try {
+        const list = JSON.parse(localStorage.getItem('hc_email_list') ?? '[]');
+        if (!list.includes(email)) list.push(email);
+        localStorage.setItem('hc_email_list', JSON.stringify(list));
+      } catch {}
+      form.classList.add('hidden');
+      success.classList.remove('hidden');
+    });
+  }
+</script>

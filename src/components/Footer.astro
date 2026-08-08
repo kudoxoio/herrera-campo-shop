@@ -1,0 +1,80 @@
+---
+// FOOTER — brand mark, nav columns, legal, social.
+const year = new Date().getFullYear();
+const cols = [
+  {
+    title: 'Colección',
+    links: [
+      { label: 'Bota Vaquera', href: '#grid' },
+      { label: 'Camisa Charra', href: '#grid' },
+      { label: 'Sarape-Poncho', href: '#grid' },
+      { label: 'Cinturón Piteado', href: '#grid' },
+      { label: 'Sombrero Jalisco', href: '#grid' },
+    ],
+  },
+  {
+    title: 'Casa',
+    links: [
+      { label: 'El Origen', href: '#origen' },
+      { label: 'El Cuidado', href: '#cuidado' },
+      { label: 'Artesanos', href: '#origen' },
+    ],
+  },
+  {
+    title: 'Contacto',
+    links: [
+      { label: 'WhatsApp', href: 'https://wa.me/521' },
+      { label: 'Instagram', href: 'https://instagram.com' },
+      { label: 'Correo', href: 'mailto:hola@herreraycampo.mx' },
+    ],
+  },
+];
+---
+
+<footer class="bg-ink text-cream pt-16 md:pt-24 pb-8 px-6 md:px-12">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="font-display text-cream text-5xl md:text-9xl tracking-tight leading-none mb-12 md:mb-20">
+      HERRERA<br />&amp; CAMPO
+    </h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-16 md:mb-24">
+      {cols.map((col) => (
+        <div>
+          <h3 class="font-utility text-cream/60 mb-4">{col.title}</h3>
+          <ul class="space-y-2">
+            {col.links.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class="font-body text-cream hover:text-accent transition-colors"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <div>
+        <h3 class="font-utility text-cream/60 mb-4">Estudio</h3>
+        <address class="font-body not-italic text-cream leading-relaxed">
+          Av. de la Calzada 240<br />
+          Centro · León, Gto.<br />
+          CP 37000 · México
+        </address>
+      </div>
+    </div>
+
+    <div class="border-t border-cream/20 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <p class="font-utility text-cream/50 text-[0.65rem]">
+        © {year} HERRERA &amp; CAMPO · Herencia charra · Hecho en México
+      </p>
+      <ul class="flex gap-6 font-utility text-cream/50 text-[0.65rem]">
+        <li><a href="#" class="hover:text-accent transition-colors">Términos</a></li>
+        <li><a href="#" class="hover:text-accent transition-colors">Privacidad</a></li>
+        <li><a href="#" class="hover:text-accent transition-colors">Envíos</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

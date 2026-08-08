@@ -1,0 +1,158 @@
+/* HERRERA & CAMPO — global stylesheet
+ * Tailwind 4 + design tokens. All values are pulled from the brief.
+ * Fonts are loaded via <link> in Layout.astro (avoids @import ordering issues).
+ */
+
+@import "tailwindcss";
+
+@theme {
+  /* Palette */
+  --color-cream: #f4efe6;        /* cal de León */
+  --color-ink: #1a1612;          /* charred adobe */
+  --color-ink-secondary: #6e5b43; /* cuero curtido */
+  --color-accent: #c68a3a;       /* oro / ámbar de tequila */
+  --color-utility: #b8a285;      /* washed hemp */
+
+  /* Type */
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* Spacing — keep simple, generous whitespace */
+}
+
+/* Reset / globals */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  font-feature-settings: 'ss01' on, 'cv11' on;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Display utility — Playfair Display only for hero h1, section h2, price */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Utility label — Inter 600 uppercase, letter-spacing 0.15em */
+.font-utility {
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+}
+
+/* Numeric tabular */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' on;
+}
+
+/* Border token — 1px solid #6E5B43 at 30% opacity */
+.border-thin {
+  border: 1px solid rgba(110, 91, 67, 0.3);
+}
+
+/* Hide horizontal scrollbar on marquee */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Focus rings — visible on every interactive element */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Marquee animation — CSS only, infinite, pause on hover */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+/* Hide visually but keep accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced-motion handling — kill animations, swap videos for stills */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  video[data-hover-spin] {
+    display: none !important;
+  }
+}

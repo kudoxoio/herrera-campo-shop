@@ -1,0 +1,59 @@
+---
+// FABRIC MACRO — full-bleed video, optional poster, eyebrow + caption.
+interface Props {
+  videoUrl?: string | null;
+  posterUrl?: string | null;
+  title?: string;
+  body?: string;
+}
+
+const {
+  videoUrl = null,
+  posterUrl = null,
+  title = 'Hecho a mano. Hilado a mano. Curtido a mano.',
+  body = 'Cada costura lleva 4 horas de un solo artesano. Cada pieza de plata se repuja en Taxco durante 3 días. Cada metro de lana sale de un telar de pedal en Tlaxcala.',
+} = Astro.props;
+---
+
+<section
+  id="fabric"
+  class="relative w-full bg-ink text-cream overflow-hidden"
+  aria-labelledby="fabric-heading"
+>
+  <!-- Background video / poster -->
+  <div class="absolute inset-0">
+    {videoUrl ? (
+      <video
+        src={videoUrl}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        class="w-full h-full object-cover opacity-70"
+        aria-hidden="true"
+        data-fabric-video
+      />
+    ) : posterUrl ? (
+      <img
+        src={posterUrl}
+        alt=""
+        class="w-full h-full object-cover opacity-70"
+        aria-hidden="true"
+      />
+    ) : (
+      <div class="w-full h-full bg-ink" aria-hidden="true"></div>
+    )}
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" aria-hidden="true"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto py-32 md:py-48 px-6 md:px-12 text-center">
+    <p class="font-utility text-accent mb-6">Artesanía · no manufactura</p>
+    <h2 id="fabric-heading" class="font-display text-cream text-4xl md:text-7xl tracking-tight leading-tight mb-8 md:mb-12">
+      {title}
+    </h2>
+    <p class="font-body text-cream/80 text-lg md:text-2xl leading-relaxed max-w-2xl mx-auto">
+      {body}
+    </p>
+  </div>
+</section>
