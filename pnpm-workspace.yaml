@@ -23,5 +23,8 @@ allowBuilds:
   # Two versions coexist because pnpm isolates transitive deps:
   #   - 0.35.2 — pulled transitively by miniflare → @astrojs/cloudflare
   #   - 0.35.3 — pulled directly by astro
-  # Pin both so neither postinstall runs unless explicitly approved.
-  sharp@0.35.2 || 0.35.3: true
+  # Listed as two separate keys (not `||` syntax) to eliminate parser
+  # ambiguity — each version must be explicitly opted-in, no implicit
+  # range coverage that could silently degrade the security control.
+  sharp@0.35.2: true
+  sharp@0.35.3: true
