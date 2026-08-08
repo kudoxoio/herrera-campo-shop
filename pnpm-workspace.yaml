@@ -1,10 +1,27 @@
-# pnpm 11.x build approval.
+# pnpm 11.x build approval with version pinning.
 # Replaces the legacy onlyBuiltDependencies setting in .npmrc.
-# Each entry must be explicitly set to `true` (approved) or `false` (denied).
-# Defense-in-depth: only vetted native packages can run install scripts.
+#
+# Version-pinned allowlist for supply-chain defense-in-depth:
+# If a new (potentially compromised) version of any of these packages is
+# published, pnpm will REFUSE to run its postinstall script because the
+# exact version isn't in this list. You must explicitly opt-in to upgrade.
+#
+# To upgrade: bump the version in `package.json`, run `pnpm install`,
+# then update the pinned version here to match the lockfile resolution.
+#
+# Syntax reference: https://pnpm.io/settings/build#allowbuilds
 
 allowBuilds:
-  esbuild: true
-  workerd: true
-  sharp: true
-  '@biomejs/biome': true
+  # esbuild — native JS/CSS/TS bundler, pulled by astro.
+  esbuild@0.28.1: true
+
+  # workerd — Cloudflare Workers runtime (open-source), used by the
+  # @astrojs/cloudflare adapter for SSR builds and local dev.
+  workerd@1.20260801.1: true
+
+  # sharp — native image processing (libvips bindings).
+  # Two versions coexist because pnpm isolates transitive deps:
+  #   - 0.35.2 — pulled transitively by miniflare → @astrojs/cloudflare
+  #   - 0.35.3 — pulled directly by astro
+  # Pin both so neither postinstall runs unless explicitly approved.
+  sharp@0.35.2 || 0.35.3: true
