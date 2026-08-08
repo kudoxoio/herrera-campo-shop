@@ -4,11 +4,14 @@ import cloudflare from '@astrojs/cloudflare';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
+//
+// Astro 7 removed the `hybrid` output mode. Default `static` now behaves
+// the same way: pages are prerendered by default, opt-in to on-demand
+// rendering per page with `export const prerender = false`.
+//
+// The adapter is still required so opt-in pages can run in Cloudflare's
+// V8 isolate runtime (Workers).
 export default defineConfig({
-  // Hybrid: pages are static by default; opt-in to SSR with `export const prerender = false`.
-  // Lets us ship 100% CDN-cached for the marketing/landing surface while enabling
-  // server-side logic (cart, auth, API endpoints) where needed.
-  output: 'hybrid',
   adapter: cloudflare({
     // Cloudflare's edge runtime — same V8 isolates that power Workers.
     // Image service 'cloudflare' uses Cloudflare Images for on-the-fly transforms.
