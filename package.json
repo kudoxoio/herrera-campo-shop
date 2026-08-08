@@ -4,6 +4,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "HERRERA & CAMPO — Temporada de Oro. Award-winning cinematic e-commerce experience.",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=11.0.0"
+  },
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 3000",
     "start": "astro dev --host 0.0.0.0 --port 3000",
@@ -11,7 +16,8 @@
     "preview": "astro preview --host 0.0.0.0 --port 3000",
     "astro": "astro",
     "deploy": "wrangler pages deploy ./dist",
-    "cf:tail": "wrangler pages deployment tail"
+    "cf:tail": "wrangler pages deployment tail",
+    "audit": "pnpm audit --prod"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",

@@ -1,0 +1,10 @@
+# pnpm 11.x build approval.
+# Replaces the legacy onlyBuiltDependencies setting in .npmrc.
+# Each entry must be explicitly set to `true` (approved) or `false` (denied).
+# Defense-in-depth: only vetted native packages can run install scripts.
+
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: true
+  '@biomejs/biome': true
