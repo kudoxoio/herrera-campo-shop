@@ -44,6 +44,10 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+    devDependencies:
+      wrangler:
+        specifier: ^4.120.0
+        version: 4.120.0
 
 packages:
 
